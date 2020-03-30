@@ -21,4 +21,29 @@ public class DesignationServiceImpl implements IDesignatonService{
 		return designationRepo.findAll();
 	}
 
+	@Override
+	public String addItemToDesignation(Designation designationObj) {
+		String output="";
+		Designation designation = new Designation();
+		designation.setName(designationObj.getName());
+		designation.setCapital(designationObj.getCapital());
+		designationRepo.save(designation);
+		output="DESIGNATION ADDED SUCCESSFULLY";
+		return output;
+	}
+
+	@Override
+	public String deleteOneDesignation(int designationId) {
+		designationRepo.delete(designationRepo.getOne(designationId));
+		
+		return "Deleted Successfully";
+	}
+
+	@Override
+	public String updateDesignation(Designation designation) {
+		Designation designation2 = designationRepo.getOne(designation.getId());
+		designation2.setCapital(designation.getCapital());
+		return "Updation Done";
+	}
+
 }
