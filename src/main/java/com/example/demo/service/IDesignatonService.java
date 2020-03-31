@@ -4,23 +4,13 @@ import java.util.List;
 
 import com.example.demo.entity.Designation;
 
-
-
 public interface IDesignatonService {
 	List<Designation> getAllDesignation();
 
-	
-    String deleteOneDesignation(int designationId);
-	  
-	  
-	String addItemToDesignation(Designation designationObj);
+	String deleteOneDesignation(int designationId);
 
+	Designation addItemToDesignation(Designation designationObj);
 
-	
-	  
-	String updateDesignation(Designation designation);
-	  
-	  //String deleteAllDesignation();
-	 
+	Designation updateDesignation(Designation designation);
 
 }

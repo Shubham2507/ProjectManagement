@@ -12,6 +12,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -34,6 +37,7 @@ public class Projects {
         joinColumns = { @JoinColumn(name = "project_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "resource_id") }
     )
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Set<Resources> resources = new HashSet<>();
 	
 	public int getProject_id() {

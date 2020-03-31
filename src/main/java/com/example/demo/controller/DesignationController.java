@@ -3,8 +3,11 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,38 +24,46 @@ import com.example.demo.service.IDesignatonService;
 public class DesignationController {
 	@Autowired
 	private IDesignatonService designatonService;
-	@Autowired
-	private DesignationRepo designationRepo;
-	
-	
+	/*
+	 * @Autowired private DesignationRepo designationRepo;
+	 */
+
 	String msg = "Following Data Found";
-	
+
+	// method to get all designations
 	@GetMapping
 	public ResponseData getDesignation() {
-		
-	
 
 		List<Designation> designation = designatonService.getAllDesignation();
-		
+
 		return new ResponseData("200", msg, designation);
 
-}
+	}
 	// add method
-	
+
 	@PostMapping("/add")
-	public ResponseData addItem(@RequestBody Designation designation) {
+	public ResponseData addDesignation(@RequestBody Designation designation) {
 
-
-		String designations = designatonService.addItemToDesignation(designation);
-		
+		Designation designations = designatonService.addItemToDesignation(designation);
+		msg = "Data Added Successfully";
 		return new ResponseData("200", msg, designations);
 
 	}
-	
 
+	// method to update Designation
+	@PutMapping
+	public ResponseData updateDsignation(@RequestBody Designation designation) {
+		Designation designations = designatonService.updateDesignation(designation);
+		msg = "Designation Updation Successfully";
+		return new ResponseData("200", msg, designations);
+	}
 
+	// method to delete Designation
+	@DeleteMapping(value = "/{id}")
+	public String deleteOneDesignation(@PathVariable("id") int Id) {
 
-
-
+		designatonService.deleteOneDesignation(Id);
+		return "Deletion Successful of cartId= " + Id;
+	}
 
 }

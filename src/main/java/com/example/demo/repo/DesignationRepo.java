@@ -8,5 +8,6 @@ import com.example.demo.entity.Designation;
 
 @Repository
 public interface DesignationRepo extends JpaRepository<Designation, Integer> {
+	
 
 }

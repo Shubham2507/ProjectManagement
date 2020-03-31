@@ -22,13 +22,13 @@ public class DesignationServiceImpl implements IDesignatonService{
 	}
 
 	@Override
-	public String addItemToDesignation(Designation designationObj) {
-		String output="";
+	public Designation addItemToDesignation(Designation designationObj) {
+		
 		Designation designation = new Designation();
 		designation.setName(designationObj.getName());
 		designation.setCapital(designationObj.getCapital());
-		designationRepo.save(designation);
-		output="DESIGNATION ADDED SUCCESSFULLY";
+		Designation output=designationRepo.save(designation);
+		
 		return output;
 	}
 
@@ -40,10 +40,11 @@ public class DesignationServiceImpl implements IDesignatonService{
 	}
 
 	@Override
-	public String updateDesignation(Designation designation) {
+	public Designation updateDesignation(Designation designation) {
 		Designation designation2 = designationRepo.getOne(designation.getId());
 		designation2.setCapital(designation.getCapital());
-		return "Updation Done";
+		Designation designation3 = designationRepo.save(designation2);
+		return designation3;
 	}
 
 }

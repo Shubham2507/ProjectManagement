@@ -2,16 +2,17 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import com.example.demo.dao.ResourcesDao;
 import com.example.demo.entity.Resources;;
 
 public interface IResourcesService {
 
-	//List<Designation> getAllDesignation();
+	List<ResourcesDao> getAllResources();
 
-	//String deleteOneDesignation(int designationId);
+	String deleteOneDesignation(int designationId);
 
-	String addItemToResources(int id,Resources resources);
+	Resources addItemToResources(int id,Resources resources);
 
-	//String updateDesignation(Designation designation);
+	//Resources updateDesignation(Designation designation);
 
 }
