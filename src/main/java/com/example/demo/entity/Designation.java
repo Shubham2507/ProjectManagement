@@ -15,7 +15,7 @@ public class Designation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
-	private String capital;
+	private int capital;
 	
 	public int getId() {
 		return id;
@@ -24,10 +24,10 @@ public class Designation implements Serializable {
 		this.id = id;
 	}
 	
-	public String getCapital() {
+	public int getCapital() {
 		return capital;
 	}
-	public void setCapital(String capital) {
+	public void setCapital(int capital) {
 		this.capital = capital;
 	}
 	
@@ -38,7 +38,7 @@ public class Designation implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Designation(int id, String name, String capital) {
+	public Designation(int id, String name, int capital) {
 		super();
 		this.id = id;
 		this.name = name;

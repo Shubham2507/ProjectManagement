@@ -11,7 +11,7 @@ import com.example.demo.repo.DesignationRepo;
 
 @EnableWebMvc
 @Service("designationService")
-public class DesignationServiceImpl implements IDesignatonService{
+public class DesignationServiceImpl implements IDesignatonService {
 	@Autowired
 	private DesignationRepo designationRepo;
 
@@ -23,19 +23,16 @@ public class DesignationServiceImpl implements IDesignatonService{
 
 	@Override
 	public Designation addItemToDesignation(Designation designationObj) {
-		
-		Designation designation = new Designation();
-		designation.setName(designationObj.getName());
-		designation.setCapital(designationObj.getCapital());
-		Designation output=designationRepo.save(designation);
-		
+
+		Designation output = designationRepo.save(designationObj);
+
 		return output;
 	}
 
 	@Override
 	public String deleteOneDesignation(int designationId) {
 		designationRepo.delete(designationRepo.getOne(designationId));
-		
+
 		return "Deleted Successfully";
 	}
 

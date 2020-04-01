@@ -1,9 +1,22 @@
 package com.example.demo.dao;
 
+import java.util.List;
+
+import com.example.demo.dto.ResProDto;
+
 public class ResourcesDao {
 	private int resource_id;
 	private String name;
 	private String designation;
+	List<ResProDto> project;
+
+	public List<ResProDto> getProject() {
+		return project;
+	}
+
+	public void setProject(List<ResProDto> project) {
+		this.project = project;
+	}
 
 	public int getResource_id() {
 		return resource_id;
