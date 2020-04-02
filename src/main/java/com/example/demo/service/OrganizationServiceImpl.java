@@ -31,15 +31,16 @@ public class OrganizationServiceImpl implements IOrganizationService {
 			organizatonDao.setId(org.getId());
 			organizatonDao.setName(org.getName());
 			organizatonDao.setTotal_cost(org.getTotal_cost());
-			List<Integer> ids = projectRepo.findAllByOrgnization_Id(org.getId());
+			List<Projects> ids = projectRepo.findAllByOrganization_Id(org.getId());
 			List<OrgProDto> orgProDtos = new ArrayList<OrgProDto>();
-			for (Integer ir : ids) {
+			for (Projects ir : ids) {
 				OrgProDto orgProDto = new OrgProDto();
-				Projects pro = projectRepo.getOne(ir);
-				orgProDto.setProjectName(pro.getName());
+				//Projects pro = projectRepo.getOne(ir);
+				orgProDto.setProjectName(ir.getName());
 				orgProDtos.add(orgProDto);
 			}
 			organizatonDao.setProjects(orgProDtos);
+			daos.add(organizatonDao);
 
 		}
 		return daos;

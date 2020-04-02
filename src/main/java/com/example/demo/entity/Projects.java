@@ -29,9 +29,10 @@ public class Projects {
 	
 	@ManyToOne
     @JoinColumn(name="organization_id", nullable=false)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Organization organization;
 	
-	@ManyToMany(cascade = { CascadeType.ALL })
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH   })
     @JoinTable(
         name = "Project_Resource", 
         joinColumns = { @JoinColumn(name = "project_id") }, 

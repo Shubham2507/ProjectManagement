@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.example.demo.dao.ProjectDao;
+import com.example.demo.dto.ResProDto;
 import com.example.demo.entity.Organization;
 import com.example.demo.entity.Projects;
 import com.example.demo.entity.Resources;
 import com.example.demo.repo.OrganizationRepo;
 import com.example.demo.repo.ProjectRepo;
+import com.example.demo.repo.ResourcesRepo;
 
 @EnableWebMvc
 @Service("projectService")
@@ -24,6 +26,8 @@ public class ProjectServiceImpl implements IProjectService {
 	private OrganizationRepo organizationRepo;
 	@Autowired
 	private IOrganizationService IOrganizationService;
+	@Autowired
+	private ResourcesRepo resourcesRepo;
 
 	@Override
 	public List<ProjectDao> getAllProjects() {
@@ -35,6 +39,17 @@ public class ProjectServiceImpl implements IProjectService {
 			projectDao.setName(pro.getName());
 			projectDao.setAllocated_capital(pro.getAllocated_capital());
 			projectDao.setUsed_capital(pro.getUsed_capital());
+			List<ResProDto> resProDtos = new ArrayList<ResProDto>();
+			Set<Resources> resources = pro.getResources();
+			for (Resources resources2 : resources)
+			{
+				ResProDto proDto = new ResProDto();
+				proDto.setId(resources2.getResource_id());
+				proDto.setName(resources2.getName());
+				resProDtos.add(proDto);
+
+			}
+			projectDao.setResources(resProDtos);
 			projectDaos.add(projectDao);
 		}
 		return projectDaos;
@@ -56,7 +71,8 @@ public class ProjectServiceImpl implements IProjectService {
 		projects.setResources(projectsObj.getResources());
 		Set<Resources> resc = projectsObj.getResources();
 		for (Resources res : resc) {
-			usedCap = usedCap + (res.getDesignation().getCapital());
+			Resources resources = resourcesRepo.getOne(res.getResource_id());
+			usedCap = usedCap + (resources.getDesignation().getCapital());
 
 		}
 		projects.setUsed_capital(usedCap);

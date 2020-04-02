@@ -51,4 +51,13 @@ public class ResourcesServiceImpl implements IResourcesService {
 		return "Deleted Successfully";
 	}
 
+	@Override
+	public Resources updateResources(Resources resources) {
+		Resources resources2 = resourcesRepo.getOne(resources.getResource_id());
+		resources2.setDesignation(resources.getDesignation());
+		Resources resources3 = resourcesRepo.save(resources2);
+
+		return resources3;
+	}
+
 }

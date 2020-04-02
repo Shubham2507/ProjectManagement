@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import com.example.demo.dao.ResourcesDao;
 import com.example.demo.entity.Designation;
 import com.example.demo.entity.Resources;
 import com.example.demo.response.ResponseData;
-import com.example.demo.service.IResourcesService;;
+import com.example.demo.service.IResourcesService;
 
 @RestController("ResourcesController")
 @RequestMapping("/poc/resources")
@@ -55,5 +56,13 @@ public class ResourcesController {
 
 		resourcesService.deleteOneDesignation(Id);
 		return "Deletion Successful of cartId= " + Id;
+	}
+
+	// method to update Resource
+	@PutMapping
+	public ResponseData updateResource(@RequestBody Resources resources) {
+		Resources resources2 = resourcesService.updateResources(resources);
+		msg = "Designation Updation Successfully";
+		return new ResponseData("200", msg, resources2);
 	}
 }

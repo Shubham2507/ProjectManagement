@@ -13,6 +13,6 @@ public interface IResourcesService {
 
 	Resources addItemToResources(int id,Resources resources);
 
-	//Resources updateDesignation(Designation designation);
+	Resources updateResources(Resources resources);
 
 }
