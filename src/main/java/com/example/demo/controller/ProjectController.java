@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.example.demo.dao.ProjectDao;
-import com.example.demo.entity.Designation;
+
 import com.example.demo.entity.Projects;
-import com.example.demo.entity.Resources;
+
 import com.example.demo.response.ResponseData;
 import com.example.demo.service.IProjectService;
 
@@ -27,13 +27,12 @@ public class ProjectController {
 	@Autowired
 	private IProjectService projectService;
 
-	String msg = "Following Data Found";
-
 	// method to get all projects
 	@GetMapping
 	public ResponseData getProject() {
 
 		List<ProjectDao> projectDao = projectService.getAllProjects();
+		String msg = "Following Data Found";
 
 		return new ResponseData("200", msg, projectDao);
 
@@ -45,7 +44,7 @@ public class ProjectController {
 			@RequestBody Projects projects) {
 
 		Projects obj = projectService.addItemToProjects(organizatonId, projects);
-		msg = "Resorce Added Successfully!!";
+		String msg = "Resorce Added Successfully!!";
 		return new ResponseData("200", msg, obj);
 
 	}
@@ -54,7 +53,7 @@ public class ProjectController {
 	@PutMapping
 	public ResponseData updateProject(@RequestBody Projects projects) {
 		Projects projects2 = projectService.updateProjects(projects);
-		msg = "Designation Updation Successfully";
+		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, projects2);
 	}
 

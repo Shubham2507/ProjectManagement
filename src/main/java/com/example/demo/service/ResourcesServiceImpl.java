@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.example.demo.dao.ResourcesDao;
+import com.example.demo.dto.ResProDto;
 import com.example.demo.entity.Designation;
+import com.example.demo.entity.Projects;
 import com.example.demo.entity.Resources;
 import com.example.demo.repo.DesignationRepo;
+import com.example.demo.repo.ProjectRepo;
 import com.example.demo.repo.ResourcesRepo;
 
 @EnableWebMvc
@@ -20,6 +23,8 @@ public class ResourcesServiceImpl implements IResourcesService {
 	private DesignationRepo designationRepo;
 	@Autowired
 	private ResourcesRepo resourcesRepo;
+	@Autowired
+	private ProjectRepo projectRepo;
 
 	@Override
 	public Resources addItemToResources(int id, Resources resources) {
@@ -34,11 +39,32 @@ public class ResourcesServiceImpl implements IResourcesService {
 	public List<ResourcesDao> getAllResources() {
 		List<ResourcesDao> resourcesDaos = new ArrayList<ResourcesDao>();
 		List<Resources> resources = resourcesRepo.findAll();
+
 		for (Resources res : resources) {
+			List<ResProDto> resProDtos = new ArrayList<ResProDto>();
 			ResourcesDao resourcesDao = new ResourcesDao();
 			resourcesDao.setResource_id(res.getResource_id());
 			resourcesDao.setName(res.getName());
 			resourcesDao.setDesignation(res.getDesignation().getName());
+			
+			List<Projects> projects = projectRepo.findAllByResources(res);
+			Integer alc = projects.size();
+			for (Projects projects2 : projects)
+			{
+				ResProDto resProDto = new ResProDto();
+				resProDto.setId(projects2.getProject_id());
+				resProDto.setName(projects2.getName());
+				if(alc==1) {
+				resProDto.setAllocation("100%");
+				}
+				else {
+				resProDto.setAllocation("50%");
+				}
+				
+				resProDtos.add(resProDto);
+
+			}
+			resourcesDao.setProject(resProDtos);
 			resourcesDaos.add(resourcesDao);
 
 		}

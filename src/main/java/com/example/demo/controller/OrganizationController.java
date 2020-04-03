@@ -26,12 +26,11 @@ public class OrganizationController {
 	@Autowired
 	private IOrganizationService IOrganizationService;
 
-	String msg = "Following Data Found";
-
 	// method to get all organizations
 	@GetMapping
 	public ResponseData getOrganization() {
 		List<OrganizatonDao> daos = IOrganizationService.getAllOrganization();
+		String msg = "Following Data Found";
 		return new ResponseData("200", msg, daos);
 
 	}
@@ -41,7 +40,7 @@ public class OrganizationController {
 	public ResponseData addItem(@RequestBody Organization organizationObj) {
 
 		Organization obj = IOrganizationService.addItemToOrganization(organizationObj);
-		msg = "Organization Added Successfully!!";
+		String msg = "Organization Added Successfully!!";
 		return new ResponseData("200", msg, obj);
 
 	}
@@ -58,7 +57,7 @@ public class OrganizationController {
 	@PutMapping
 	public ResponseData updateOrganization(@RequestBody Organization organization) {
 		Organization organization2 = IOrganizationService.updateOrganization(organization);
-		msg = "Designation Updation Successfully";
+		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, organization2);
 	}
 

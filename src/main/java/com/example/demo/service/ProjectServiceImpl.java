@@ -41,11 +41,18 @@ public class ProjectServiceImpl implements IProjectService {
 			projectDao.setUsed_capital(pro.getUsed_capital());
 			List<ResProDto> resProDtos = new ArrayList<ResProDto>();
 			Set<Resources> resources = pro.getResources();
+			Integer alc = resources.size();
 			for (Resources resources2 : resources)
 			{
 				ResProDto proDto = new ResProDto();
 				proDto.setId(resources2.getResource_id());
 				proDto.setName(resources2.getName());
+				if(alc==1) {
+					proDto.setAllocation("100%");
+					}
+					else {
+						proDto.setAllocation("50%");
+					}
 				resProDtos.add(proDto);
 
 			}

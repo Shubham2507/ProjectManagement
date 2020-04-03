@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.example.demo.dao.ResourcesDao;
-import com.example.demo.entity.Designation;
+
 import com.example.demo.entity.Resources;
 import com.example.demo.response.ResponseData;
 import com.example.demo.service.IResourcesService;
@@ -26,13 +26,12 @@ public class ResourcesController {
 	@Autowired
 	private IResourcesService resourcesService;
 
-	String msg = "Following Data Found";
-
 	// method to get all designations
 	@GetMapping
 	public ResponseData getDesignation() {
 
 		List<ResourcesDao> output = resourcesService.getAllResources();
+		String msg = "Following Data Found";
 
 		return new ResponseData("200", msg, output);
 
@@ -45,7 +44,7 @@ public class ResourcesController {
 			@RequestBody Resources resources) {
 
 		Resources obj = resourcesService.addItemToResources(designationId, resources);
-		msg = "Resorce Added Successfully!!";
+		String msg = "Resorce Added Successfully!!";
 		return new ResponseData("200", msg, obj);
 
 	}
@@ -62,7 +61,7 @@ public class ResourcesController {
 	@PutMapping
 	public ResponseData updateResource(@RequestBody Resources resources) {
 		Resources resources2 = resourcesService.updateResources(resources);
-		msg = "Designation Updation Successfully";
+		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, resources2);
 	}
 }

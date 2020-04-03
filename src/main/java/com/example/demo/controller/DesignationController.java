@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.example.demo.entity.Designation;
-import com.example.demo.repo.DesignationRepo;
+
 import com.example.demo.response.ResponseData;
 import com.example.demo.service.IDesignatonService;
 
@@ -24,17 +24,13 @@ import com.example.demo.service.IDesignatonService;
 public class DesignationController {
 	@Autowired
 	private IDesignatonService designatonService;
-	/*
-	 * @Autowired private DesignationRepo designationRepo;
-	 */
-
-	String msg = "Following Data Found";
 
 	// method to get all designations
 	@GetMapping
 	public ResponseData getDesignation() {
 
 		List<Designation> designation = designatonService.getAllDesignation();
+		String msg = "Following Data Found";
 
 		return new ResponseData("200", msg, designation);
 
@@ -45,7 +41,7 @@ public class DesignationController {
 	public ResponseData addDesignation(@RequestBody Designation designation) {
 
 		Designation designations = designatonService.addItemToDesignation(designation);
-		msg = "Data Added Successfully";
+		String msg = "Data Added Successfully";
 		return new ResponseData("200", msg, designations);
 
 	}
@@ -54,7 +50,7 @@ public class DesignationController {
 	@PutMapping
 	public ResponseData updateDsignation(@RequestBody Designation designation) {
 		Designation designations = designatonService.updateDesignation(designation);
-		msg = "Designation Updation Successfully";
+		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, designations);
 	}
 
