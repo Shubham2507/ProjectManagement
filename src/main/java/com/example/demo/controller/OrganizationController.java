@@ -56,7 +56,7 @@ public class OrganizationController {
 	// method to update organization
 	@PutMapping
 	public ResponseData updateOrganization(@RequestBody Organization organization) {
-		Organization organization2 = IOrganizationService.updateOrganization(organization);
+		Object organization2 = IOrganizationService.updateOrganization(organization);
 		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, organization2);
 	}

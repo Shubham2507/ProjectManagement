@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
 			List<OrgProDto> orgProDtos = new ArrayList<OrgProDto>();
 			for (Projects ir : ids) {
 				OrgProDto orgProDto = new OrgProDto();
-				//Projects pro = projectRepo.getOne(ir);
+				// Projects pro = projectRepo.getOne(ir);
 				orgProDto.setProjectName(ir.getName());
 				orgProDtos.add(orgProDto);
 			}
@@ -48,8 +49,14 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
 	@Override
 	public String deleteOneOrganization(int organizationId) {
-		organizationRepo.deleteById(organizationId);
-		return "Deleted Successfully";
+		Optional<Organization> organization1 = organizationRepo.findById(organizationId);
+		if (!organization1.isPresent())
+			return "No such id Exists!!";
+		else {
+			organizationRepo.deleteById(organizationId);
+
+			return "Deleted Successfully";
+		}
 	}
 
 	@Override
@@ -62,10 +69,16 @@ public class OrganizationServiceImpl implements IOrganizationService {
 	}
 
 	@Override
-	public Organization updateOrganization(Organization organization) {
-		Organization organization2 = organizationRepo.getOne(organization.getId());
-		organization2.setTotal_cost(organization.getTotal_cost());
-		Organization organization3 = organizationRepo.save(organization2);
+	public Object updateOrganization(Organization organization) {
+		Optional<Organization> organization2 = organizationRepo.findById(organization.getId());
+		Organization organization4 = organization2.get();
+		Organization organization3 = null;
+		if (!organization2.isPresent())
+			return "NO Such Organization Exists!!";
+		else {
+			organization4.setTotal_cost(organization.getTotal_cost());
+			organization3 = organizationRepo.save(organization4);
+		}
 
 		return organization3;
 	}

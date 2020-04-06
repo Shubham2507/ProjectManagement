@@ -13,6 +13,6 @@ public interface IResourcesService {
 
 	Resources addItemToResources(int id,Resources resources);
 
-	Resources updateResources(Resources resources);
+	Object updateResources(Resources resources);
 
 }

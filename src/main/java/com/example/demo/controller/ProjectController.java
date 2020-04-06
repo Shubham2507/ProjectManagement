@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,10 @@ import com.example.demo.entity.Projects;
 
 import com.example.demo.response.ResponseData;
 import com.example.demo.service.IProjectService;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
 
 @RestController("ProjectController")
 @RequestMapping("/poc/project")
@@ -26,6 +33,25 @@ import com.example.demo.service.IProjectService;
 public class ProjectController {
 	@Autowired
 	private IProjectService projectService;
+
+	@GetMapping("/export-project")
+	public void exportCSV(HttpServletResponse response) throws Exception {
+
+		// set file name and content type
+		String filename = "Project_Captilization.csv";
+
+		response.setContentType("text/csv");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+
+		// create a csv writer
+		StatefulBeanToCsv<Projects> writer = new StatefulBeanToCsvBuilder<Projects>(response.getWriter())
+				.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+				.withOrderedResults(false).build();
+
+		// write all users to csv file
+		writer.write(projectService.getAll());
+
+	}
 
 	// method to get all projects
 	@GetMapping
@@ -43,7 +69,7 @@ public class ProjectController {
 	public ResponseData addItem(@PathVariable(value = "organizationId") int organizatonId,
 			@RequestBody Projects projects) {
 
-		Projects obj = projectService.addItemToProjects(organizatonId, projects);
+		Object obj = projectService.addItemToProjects(organizatonId, projects);
 		String msg = "Resorce Added Successfully!!";
 		return new ResponseData("200", msg, obj);
 
@@ -52,7 +78,7 @@ public class ProjectController {
 	// method to update Designation
 	@PutMapping
 	public ResponseData updateProject(@RequestBody Projects projects) {
-		Projects projects2 = projectService.updateProjects(projects);
+		Object projects2 = projectService.updateProjects(projects);
 		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, projects2);
 	}

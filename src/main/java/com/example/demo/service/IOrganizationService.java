@@ -13,6 +13,6 @@ public interface IOrganizationService {
 
 	Organization addItemToOrganization(Organization organizationObj);
 
-	Organization updateOrganization(Organization organization);
+	Object updateOrganization(Organization organization);
 
 }

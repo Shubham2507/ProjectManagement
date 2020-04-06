@@ -6,13 +6,14 @@ import com.example.demo.dao.ProjectDao;
 import com.example.demo.entity.Projects;
 
 public interface IProjectService {
-
+	List<Projects> getAll();
+  
 	List<ProjectDao> getAllProjects();
 
 	String deleteOneProject(int projectId);
 
-	Projects addItemToProjects(int id,Projects projectsObj);
+	Object addItemToProjects(int id,Projects projectsObj);
 
-	Projects updateProjects(Projects projects);
+	Object updateProjects(Projects projects);
 
 }

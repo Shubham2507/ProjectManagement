@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,17 +43,15 @@ public class ProjectServiceImpl implements IProjectService {
 			List<ResProDto> resProDtos = new ArrayList<ResProDto>();
 			Set<Resources> resources = pro.getResources();
 			Integer alc = resources.size();
-			for (Resources resources2 : resources)
-			{
+			for (Resources resources2 : resources) {
 				ResProDto proDto = new ResProDto();
 				proDto.setId(resources2.getResource_id());
 				proDto.setName(resources2.getName());
-				if(alc==1) {
+				if (alc == 1) {
 					proDto.setAllocation("100%");
-					}
-					else {
-						proDto.setAllocation("50%");
-					}
+				} else {
+					proDto.setAllocation("50%");
+				}
 				resProDtos.add(proDto);
 
 			}
@@ -64,12 +63,20 @@ public class ProjectServiceImpl implements IProjectService {
 
 	@Override
 	public String deleteOneProject(int projectId) {
-		projectRepo.deleteById(projectId);
-		return "Deletion Successfully";
+		Optional<Projects> projects = projectRepo.findById(projectId);
+		if (!projects.isPresent())
+			return "No such id Exists!!";
+		else {
+			projectRepo.deleteById(projectId);
+
+			return "Deleted Successfully";
+		}
 	}
 
 	@Override
-	public Projects addItemToProjects(int id, Projects projectsObj) {
+	public Object addItemToProjects(int id, Projects projectsObj) {
+		Object obj = null;
+		int flag = 0;
 		Projects projects = new Projects();
 		int usedCap = 0;
 
@@ -78,28 +85,51 @@ public class ProjectServiceImpl implements IProjectService {
 		projects.setResources(projectsObj.getResources());
 		Set<Resources> resc = projectsObj.getResources();
 		for (Resources res : resc) {
-			Resources resources = resourcesRepo.getOne(res.getResource_id());
-			usedCap = usedCap + (resources.getDesignation().getCapital());
+			List<Projects> projects2 = projectRepo.findAllByResources(res);
+			Integer alc = projects2.size();
+			if (alc == 2) {
+				obj = "Resource with id " + res.getResource_id()
+						+ " is already assigned to 2 projects.Choose another resource";
+				flag = 1;
+			} else {
 
+				Resources resources = resourcesRepo.getOne(res.getResource_id());
+				usedCap = usedCap + (resources.getDesignation().getCapital());
+			}
 		}
-		projects.setUsed_capital(usedCap);
-		Organization organization = organizationRepo.getOne(id);
-		projects.setOrganization(organization);
-		Projects projects2 = projectRepo.save(projects);
-		int totCoos = organization.getTotal_cost();
-		totCoos = totCoos + projects.getAllocated_capital();
-		organization.setTotal_cost(totCoos);
-		IOrganizationService.updateOrganization(organization);
-		return projects2;
+		if (flag == 0) {
+
+			projects.setUsed_capital(usedCap);
+			Organization organization = organizationRepo.getOne(id);
+			projects.setOrganization(organization);
+			obj = projectRepo.save(projects);
+			int totCoos = organization.getTotal_cost();
+			totCoos = totCoos + projects.getAllocated_capital();
+			organization.setTotal_cost(totCoos);
+			IOrganizationService.updateOrganization(organization);
+		}
+		return obj;
 
 	}
 
 	@Override
-	public Projects updateProjects(Projects projects) {
-		Projects projects2 = projectRepo.getOne(projects.getAllocated_capital());
-		projects2.setUsed_capital(projects.getUsed_capital());
-		Projects projects3 = projectRepo.save(projects2);
+	public Object updateProjects(Projects projects) {
+		Optional<Projects> projects2 = projectRepo.findById(projects.getAllocated_capital());
+		Projects projects4 = projects2.get();
+		Projects projects3 = null;
+		if (!projects2.isPresent())
+			return "No Such Project Exists!!";
+		else {
+			projects4.setUsed_capital(projects.getUsed_capital());
+			projects3 = projectRepo.save(projects4);
+		}
 		return projects3;
+	}
+
+	@Override
+	public List<Projects> getAll() {
+		
+		return projectRepo.findAll();
 	}
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,21 +47,19 @@ public class ResourcesServiceImpl implements IResourcesService {
 			resourcesDao.setResource_id(res.getResource_id());
 			resourcesDao.setName(res.getName());
 			resourcesDao.setDesignation(res.getDesignation().getName());
-			
+
 			List<Projects> projects = projectRepo.findAllByResources(res);
 			Integer alc = projects.size();
-			for (Projects projects2 : projects)
-			{
+			for (Projects projects2 : projects) {
 				ResProDto resProDto = new ResProDto();
 				resProDto.setId(projects2.getProject_id());
 				resProDto.setName(projects2.getName());
-				if(alc==1) {
-				resProDto.setAllocation("100%");
+				if (alc == 1) {
+					resProDto.setAllocation("100%");
+				} else {
+					resProDto.setAllocation("50%");
 				}
-				else {
-				resProDto.setAllocation("50%");
-				}
-				
+
 				resProDtos.add(resProDto);
 
 			}
@@ -72,16 +71,28 @@ public class ResourcesServiceImpl implements IResourcesService {
 	}
 
 	@Override
-	public String deleteOneDesignation(int designationId) {
-		resourcesRepo.delete(resourcesRepo.getOne(designationId));
-		return "Deleted Successfully";
+	public String deleteOneDesignation(int resourceId) {
+		Optional<Resources> resources = resourcesRepo.findById(resourceId);
+		if (!resources.isPresent())
+			return "No such id Exists!!";
+		else {
+			resourcesRepo.deleteById(resourceId);
+
+			return "Deleted Successfully";
+		}
 	}
 
 	@Override
-	public Resources updateResources(Resources resources) {
-		Resources resources2 = resourcesRepo.getOne(resources.getResource_id());
-		resources2.setDesignation(resources.getDesignation());
-		Resources resources3 = resourcesRepo.save(resources2);
+	public Object updateResources(Resources resources) {
+		Optional<Resources> resources2 = resourcesRepo.findById(resources.getResource_id());
+		Resources resources4 = resources2.get();
+		Resources resources3 = null;
+		if (resources2 == null)
+			return "No Such Resource Exists!!";
+		else {
+			resources4.setDesignation(resources.getDesignation());
+			resources3 = resourcesRepo.save(resources4);
+		}
 
 		return resources3;
 	}

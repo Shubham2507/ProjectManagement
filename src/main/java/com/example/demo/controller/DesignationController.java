@@ -49,7 +49,7 @@ public class DesignationController {
 	// method to update Designation
 	@PutMapping
 	public ResponseData updateDsignation(@RequestBody Designation designation) {
-		Designation designations = designatonService.updateDesignation(designation);
+		Object designations = designatonService.updateDesignation(designation);
 		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, designations);
 	}

@@ -11,6 +11,6 @@ public interface IDesignatonService {
 
 	Designation addItemToDesignation(Designation designationObj);
 
-	Designation updateDesignation(Designation designation);
+	Object updateDesignation(Designation designation);
 
 }

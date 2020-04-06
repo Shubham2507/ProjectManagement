@@ -60,7 +60,7 @@ public class ResourcesController {
 	// method to update Resource
 	@PutMapping
 	public ResponseData updateResource(@RequestBody Resources resources) {
-		Resources resources2 = resourcesService.updateResources(resources);
+		Object resources2 = resourcesService.updateResources(resources);
 		String msg = "Designation Updation Successfully";
 		return new ResponseData("200", msg, resources2);
 	}
