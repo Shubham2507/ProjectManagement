@@ -15,10 +15,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "Pojects")
+
 public class Projects {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

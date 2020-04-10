@@ -41,7 +41,7 @@ public class ProjectController {
 		String filename = "Project_Captilization.csv";
 
 		response.setContentType("text/csv");
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\""); 
 
 		// create a csv writer
 		StatefulBeanToCsv<Projects> writer = new StatefulBeanToCsvBuilder<Projects>(response.getWriter())

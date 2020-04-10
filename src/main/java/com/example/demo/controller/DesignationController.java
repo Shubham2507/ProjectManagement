@@ -20,7 +20,6 @@ import com.example.demo.service.IDesignatonService;
 
 @RestController("DesignationController")
 @RequestMapping("/poc/designation")
-@EnableWebMvc
 public class DesignationController {
 	@Autowired
 	private IDesignatonService designatonService;
@@ -37,7 +36,7 @@ public class DesignationController {
 	}
 	// add method
 
-	@PostMapping("/add")
+	@PostMapping(value="/add")
 	public ResponseData addDesignation(@RequestBody Designation designation) {
 
 		Designation designations = designatonService.addItemToDesignation(designation);
