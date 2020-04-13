@@ -1,39 +1,36 @@
 package com.example.demo.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.example.demo.entity.Designation;
-import com.example.demo.service.DesignationServiceImpl;
-import com.example.demo.service.IDesignatonService;
+import com.example.demo.dao.ResourcesDao;
+import com.example.demo.entity.Resources;
+import com.example.demo.service.IResourcesService;
+
+import com.example.demo.service.ResourcesServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { DesignationController.class, DesignationServiceImpl.class })
+@ContextConfiguration(classes = { ResourcesController.class, ResourcesServiceImpl.class })
 @WebMvcTest
-class DesignationControllerTest {
+class ResourcesControllerTest {
 	@Autowired
 	private MockMvc mvc;
 	@MockBean
-	IDesignatonService designatonService;
+	IResourcesService IResourcesService;
 
 	protected String mapToJson(Object obj) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -41,17 +38,14 @@ class DesignationControllerTest {
 	}
 
 	@Test
-	public void testaddDesignation() throws Exception {
+	public void testaddResources() throws Exception {
 
-		Designation ad = new Designation();
-		ad.setCapital(0);
-		ad.setId(1);
+		Resources ad = new Resources();
 		ad.setName("testing");
 
 		String inputJson = mapToJson(ad);
-
 		MvcResult result = mvc
-				.perform(MockMvcRequestBuilders.post("/poc/designation/add").content(inputJson)
+				.perform(MockMvcRequestBuilders.post("/poc/resources/add/{designationId}", 1).content(inputJson)
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 
@@ -61,17 +55,14 @@ class DesignationControllerTest {
 	}
 
 	@Test
-	public void testgetDesignation() throws Exception {
+	public void testgetResources() throws Exception {
 
-		Designation ad = new Designation();
-		ad.setCapital(0);
-		ad.setId(1);
+		ResourcesDao ad = new ResourcesDao();
 		ad.setName("testing");
 
 		String inputJson = mapToJson(ad);
-
 		MvcResult result = mvc
-				.perform(MockMvcRequestBuilders.get("/poc/designation").content(inputJson)
+				.perform(MockMvcRequestBuilders.get("/poc/resources").content(inputJson)
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 
@@ -81,17 +72,14 @@ class DesignationControllerTest {
 	}
 
 	@Test
-	public void testupdateDesignation() throws Exception {
+	public void testupdateResources() throws Exception {
 
-		Designation ad = new Designation();
-		ad.setCapital(0);
-		ad.setId(1);
+		Resources ad = new Resources();
 		ad.setName("testing");
 
 		String inputJson = mapToJson(ad);
-
 		MvcResult result = mvc
-				.perform(MockMvcRequestBuilders.put("/poc/designation").content(inputJson)
+				.perform(MockMvcRequestBuilders.put("/poc/resources").content(inputJson)
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 
@@ -101,12 +89,11 @@ class DesignationControllerTest {
 	}
 
 	@Test
-	public void testdeleteDesignation() throws Exception {
+	public void testdeleteResources() throws Exception {
 
-		String inputJson1 = mapToJson(1);
-
+		String inputJson = mapToJson(1);
 		MvcResult result = mvc
-				.perform(MockMvcRequestBuilders.delete("/poc/designation/{id}", 1).content(inputJson1)
+				.perform(MockMvcRequestBuilders.delete("/poc/resources/{id}", 1).content(inputJson)
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 

@@ -1,43 +1,36 @@
 package com.example.demo.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.example.demo.entity.Designation;
+import com.example.demo.repo.DesignationRepo;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-@RunWith(SpringRunner.class)
-@ContextConfiguration
-@SpringBootTest(classes=DesignationServiceImpl.class)
-@EnableWebMvc
+@SpringBootTest
 class DesignationServiceTest {
-	
-	@Autowired
-	DesignationServiceImpl DesignationServiceImpl;
+	@Mock
+	DesignationRepo designationRepo;
+	@InjectMocks
+	DesignationServiceImpl designationServiceImpl;
 
 	@Test
-	public void testaddItemToDesignation()throws Exception {
-		Designation ad = new Designation();
-		ad.setId(1);
-		ad.setName("testing");
-		//verify(DesignationServiceImpl,times(1)).addItemToDesignation(ad);
-		when(DesignationServiceImpl.addItemToDesignation(ad)).thenReturn(ad);
-		assertEquals(ad, ad);
-		
+	public void testaddDesignaton() {
+		Designation designation = new Designation();
+		designation.setId(1);
+		designation.setName("testing");
+		when(designationServiceImpl.addItemToDesignation(designation)).thenReturn(designation);
+		Designation result = designationServiceImpl.addItemToDesignation(designation);
+		assertEquals(result, designation);
+
 	}
 
-	
-
 }
-
-
-
